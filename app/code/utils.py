@@ -184,13 +184,12 @@ class CustomBERTTokenizer:
       output['input_ids'] = []
       output['attention_mask'] = []
       for sentence in sentences:
-        # TODO don't forget to change UNK back
           input_ids = [self.word2id.get(word, self.word2id['[UNK]']) for word in sentence.split()]
           n_pad = self.max_len - len(input_ids)
           input_ids.extend([0] * n_pad)
-          att_mask = [1 if idx != 0 else 0 for idx in input_ids]  # Create attention mask
-          output['input_ids'].append(torch.tensor(input_ids))  # Convert to tensor
-          output['attention_mask'].append(torch.tensor(att_mask))  # Convert to tensor
+          att_mask = [1 if idx != 0 else 0 for idx in input_ids]
+          output['input_ids'].append(torch.tensor(input_ids))
+          output['attention_mask'].append(torch.tensor(att_mask))
       return output
 
   def decode(self, ids):
